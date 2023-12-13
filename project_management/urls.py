@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('', include('dashboard.urls')),
@@ -24,3 +25,4 @@ urlpatterns = [
     path('ticket/', include('ticket.urls')),
     path('project/', include('project.urls')),
 ]
+urlpatterns += staticfiles_urlpatterns()
