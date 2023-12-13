@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .main-card {
+      background-color: #ffffff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .left-section {
+      background-color: #4caf50;
+      color: #ffffff;
+      padding: 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left-section h2 {
+      margin-bottom: 30px;
+      font-size: 30px;
+    }
+
+    .left-section p {
+      font-size: 16px;
+      color: #e0e0e0;
+    }
+
+    .login-details-card {
+      flex-grow: 1;
+      padding: 40px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: bold;
+      color: #555;
+      font-size: 16px;
+    }
+
+    input {
+      width: 100%; /* Full width for responsiveness */
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    /* Adjust the width for smaller screens */
+    @media (max-width: 600px) {
+      input {
+        width: calc(100% - 24px); /* Adjust the width for smaller screens */
+      }
+    }
+
+    .signin-link {
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #4caf50;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .signin-link:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-card">
+    <div class="left-section">
+      <h2>Login</h2>
+      <p>Welcome to our site</p>
+    </div>
+    <div class="login-details-card">
+      <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" class="signin-link">Sign In</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

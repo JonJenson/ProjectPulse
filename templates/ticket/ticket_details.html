@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row p-3 mb-2 bg-light rounded-3">
+    <div class="col-md-8">
+        <div class="py-3">
+            <h1 class="display-6 fw-bold">{{ticket.ticket_title}}</h1>
+            <h5>
+            {% if ticket.is_resolved %}
+                <span class="badge bg-danger text-white">Resolved</span>
+            {% elif ticket.assigned_engineer %}
+                <span class="badge bg-success text-white">Active</span>
+            {% else %}
+                <span class="badge bg-primary text-white">Pending</span>
+            {% endif %}
+            </h5>
+            <p>{{ticket.ticket_description}}</p>
+            
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="py-3">
+                    <h2 class="display-6">Quick Info</h2>
+                    <p>Quick information about the ticket and the customer:</p>
+                    <ul class="icon-list">
+                        <li><b>Ticket ID:</b> #{{ticket.ticket_id}}</li>
+                        <li><b>Customer:</b> {{ticket.customer.get_full_name}}</li>
+                        <li><b>Project:</b> {{ticket.project.project_title}}</li>
+                        <li><b>Manager:</b> {{ticket.manager.get_full_name}}</li>
+                        <li><b>Engineer:</b> {{ticket.assigned_engineer.get_full_name}}</li>
+                        <li><b>Date:</b> {{ticket.created_on}}</li>
+                        <li><b>Priority:</b> {{ticket.severity}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if ticket.resolution_steps or ticket.is_resolved%}
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Resolution Steps</h5>
+        {{ticket.resolution_steps}}
+    </div>
+</div>
+{% elif request.user.is_engineer and not ticket.is_resolved %}
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Resolution Steps</h5>
+        <form action="{% url 'submit-resolution' ticket.ticket_id %}" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea2" class="form-label">Here is how the issue was resolved</label>
+                <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" name="rs"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% if request.user.is_customer and not ticket.is_resolved and ticket.resolution_steps %}
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Resolve Ticket</h5>
+        <form action="{% url 'resolve-ticket' ticket.ticket_id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Resolve</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Resolution Steps</h5>
+            Yet to be resolved
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="row row-cols-2 row-cols-md-4 g-3">
+    {% if projects %}
+        {% for project in projects %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.project_title }}</h5>
+                    <p class="card-text">
+                        Project Code: {{ project.project_id }}<br>
+                        {% if project.status == 'On Hold' %}
+                            <span class="badge bg-primary text-white">On Hold</span>
+                        {% elif project.status == 'Active' %}
+                            <span class="badge bg-success text-white">Active</span>
+                        {% elif project.status == 'Completed' %}
+                            <span class="badge bg-danger text-white">Completed</span>
+                        {% endif %}
+                    </p>
+                </div>
+                
+                <a href="{% url 'admin_view_tickets' project.project_id %}" class="btn btn-primary btn-sm">View Details</a>
+                <div class="card-footer">
+                    <small class="text-muted">Start Date: {{ project.start_date }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="card-text">
+                        No projects available.
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}

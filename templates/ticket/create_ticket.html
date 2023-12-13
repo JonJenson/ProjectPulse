@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container col-xl-12 col-xxl-10 px-4 py-5" style="margin-top: -70px;">
+    <div class="row align-items-center g-1g-5 py-5">
+        <!-- ... (your existing content) ... -->
+        <div class="col-md-10 mx-auto col-lg-6">
+            <h2 class="display-6 fw-bold 1h-1 mb-3 Text-center">Create New Ticket</h2>
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    {% render_field form.ticket_title class="form-control" %}
+                    <label for="floatingInput">Ticket Title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.ticket_description class="form-control" %}
+                    <label for="floatingPassword">Tell us more about the issue...</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.severity class="form-select" %}
+                    <label for="floatingPassword">Severity</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.project class="form-select" %}
+                    <label for="floatingPassword">Project Title</label>
+                </div>
+                
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

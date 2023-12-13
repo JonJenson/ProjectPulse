@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Project Details{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="display-4"><b>{{ project.project_title }}</b></h1>
+    <p class="lead"><b>Description:</b> {{ project.description }}</p>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <ul class="list-group">
+                <li class="list-group-item"><b>Project Code:</b> {{ project.project_code }}</li>
+                <li class="list-group-item"><b>Status:</b> {{ project.status }}</li>
+                <li class="list-group-item"><b>Start Date:</b> {{ project.start_date }}</li>
+                <li class="list-group-item"><b>End Date:</b> {{ project.end_date }}</li>
+                <li class="list-group-item"><b>Customer : </b> {{ project.customer.get_full_name }}</li>
+                <li class="list-group-item"><b>Manager :</b> {{ project.manager.get_full_name}}</li>
+        
+                <li class="list-group-item">
+                    <b>Team Leaders:</b>
+                    <div class="d-flex flex-wrap">
+                        {% for team_leader in project.teamleader_set.all %}
+                            <div class="mr-3 mb-3">
+                                <b>{{ team_leader.user.get_full_name }}</b>
+                                {% if team_leader.engineer_set.all %}
+                                    <ul class="list-group mt-2">
+                                        {% for engineer in team_leader.engineer_set.all %}
+                                            <li class="list-group-item">{{ engineer.user.get_full_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </li>
+
+                <!-- Add more details as needed -->
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ticket Status</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>Pending Tickets:</b> {{ pending_tickets_count }}</li>
+                        <li class="list-group-item"><b>Resolved Tickets:</b> {{ active_tickets_count }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Add additional sections or details specific to project viewing -->
+
+</div>
+
+{% endblock content %}

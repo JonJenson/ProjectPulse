@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block heading %}
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'manager-view-tickets' %}">View Tickets</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'ticket-queue' %}">Assign Tickets</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'manager-view-team-members' %}">View Members</a>
+</li>
+{% endblock heading %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if team_leader_data %}
+        {% for project_data in team_leader_data %}
+            <h3>{{ project_data.project.project_title }}</h3>
+            {% for team_leader_info in project_data.team_leaders_info %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>{{ team_leader_info.team_leader.user.email }}</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if team_leader_info.engineers %}
+                            <ul class="list-group">
+                                {% for engineer in team_leader_info.engineers %}
+                                    <li class="list-group-item">{{ engineer.user.email }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No engineers under this team leader.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>No projects found for the manager.</p>
+    {% endif %}
+</div>
+{% endblock content %}
