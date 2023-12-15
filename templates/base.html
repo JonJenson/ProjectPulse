@@ -45,15 +45,21 @@
             </div>
         </div>
     </nav>
+    {% if messages %}
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-unstyled">
+                {% for message in messages %}
+                    <li class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="container mt-5">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{messages.tags}}" role="alert">
-            <b>{{message}}</b>
-        </div>
-        {% endfor %}
-        {% endif %}
         {% block content %}
         {% endblock content %}
     </div>
